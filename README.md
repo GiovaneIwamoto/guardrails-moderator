@@ -43,3 +43,12 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ### CONTRIBUTING
 Pull requests are welcome! Feel free to open an issue or suggest improvements.
+
+---
+
+### DEVS LEARNING PLAN
+
+- API concepts
+- start API using (FastAPI framework)
+- Use FastAPI interface to call app.py to test params calls
+- Develop logic (Start simple like "if guardrails receive an prohibited pre-defined word, return to API user input censored")
