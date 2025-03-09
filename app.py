@@ -23,14 +23,42 @@ def treat_input(user_input: str):
     
     return moderated_text
 
-@app.post("/moderate")
-def moderate_text(params: dict):
+#function to moderate user input with ai
+def ai_treat_input(user_input: str):
+    if not user_input:
+        return ""
+    
+    #request to ai : "replace the swear words and personal data present in the sentence with "***" ..."
+    #save the response as ai_response
+    moderated_text = ("ai_response")
+    return moderated_text
+
+
+#call the manual moderate
+@app.post("/manualmoderate")
+def manual_moderate_text(params: dict):
     text_input = params.get("text_input")
+    #verify if the json has "text_input"
     if not text_input:
         raise HTTPException(status_code=400, detail="text_input is required")
-    
+    #clean the text
     treated_response = treat_input(text_input)
+    #return the original and the moderated text
     return {"original": text_input, "moderated": treated_response}
+
+
+#call the ai moderate
+@app.post("/aimoderate")
+def ai_moderate_text(params: dict):
+    text_input = params.get("text_input")
+    #verify if the json has "text_input"
+    if not text_input:
+        raise HTTPException(status_code=400, detail="text_input is required")
+    #clean the text
+    treated_response = ai_treat_input(text_input)
+    #return the original and the moderated text
+    return {"original": text_input, "moderated": treated_response}
+
 
 # Run with: fastapi dev app.py
 # Access with: http://localhost:8000/docs
