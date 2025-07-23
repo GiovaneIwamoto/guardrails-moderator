@@ -1,2 +1,6 @@
 fastapi
-fastapi[standard]
+uvicorn
+python-dotenv
+openai>=1.0.0
+requests
+pydantic

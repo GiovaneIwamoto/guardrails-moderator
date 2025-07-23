@@ -169,3 +169,16 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# Ignore virtual environments
+venv/
+env/
+
+# Ignore environment variables file
+.env
+
+*.pyc
+
+# Pycharm files
+*.idea
