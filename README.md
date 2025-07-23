@@ -1,54 +1,98 @@
-# GUARDRAILS MODERATOR
+# GUARDRAILS MODERATOR  
 
-Guardrails Moderator is a **SaaS solution** designed to **moderate user inputs**, ensuring compliance and security by filtering **PII (Personally Identifiable Information) and unwanted words** using **AI and Regex**.
-
-### FEATURE
-
-**Censor inappropriate words** with customizable filters  
-**Detect and mask PII** 
-**Choose between Regex-based filtering (fast) or AI-powered moderation (context-aware)**  
-**REST API for seamless integration** into any application  
-**Real-time text validation** with flexible moderation settings  
+Guardrails Moderator is a robust, extensible API service for real-time text moderation. It leverages both traditional regex-based filtering and advanced AI-powered moderation to detect and mask inappropriate language and personally identifiable information (PII) in user input. Designed for seamless integration, it provides RESTful endpoints for both manual and AI-driven moderation workflows.
 
 ---
 
-### INSTALLATION GUIDE
+### **FEATURE**
+
+- **Customizable word filtering**: Easily extend the prohibited word list via a simple text file.
+- **Regex-based fast moderation**: Efficiently censors unwanted words using regular expressions and a customizable filter list.
+- **AI-powered moderation**: Uses OpenAI's model for context-aware detection and masking of offensive language and PII.
+- **REST API**: Simple, stateless endpoints for integration into any application stack.
+- **Environment-based configuration**: Securely manage API keys and settings with environment variables.
+
+---
+
+### **INSTALLATION**
 
 ```sh
-# Install dependencies
 pip install -r requirements.txt
 ```
-### **Example API Request**
-Send a **POST** request to validate text:
+     
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+```
 
 ```sh
-curl -X POST "http://localhost:8000/validate/" -H "Content-Type: application/json" -d '{"text": "My email is test@example.com", "use_ai": false}'
-```
-
-### **Example Response**
-```json
-{
-  "original": "My email is test@example.com",
-  "censored": "My email is ****"
-}
+uvicorn src.app:app --reload
 ```
 
 ---
 
-### LICENSE
+### **API ENDPOINTS**
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+#### 1. Manual Moderation
+
+- **Endpoint:** `POST /manualmoderate`
+- **Description:** Censors words found in the customizable filter list using regex.
+- **Request Body:**
+  ```json
+  {
+    "text_input": "string"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "original": "string",
+    "moderated": "string"
+  }
+  ```
+
+#### 2. AI Moderation
+
+- **Endpoint:** `POST /aimoderate`
+- **Description:** Uses OpenAI to mask offensive language and PII contextually.
+- **Request Body:**
+  ```json
+  {
+    "text_input": "string"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "original": "string",
+    "moderated": "string"
+  }
+  ```
 
 ---
 
-### CONTRIBUTING
-Pull requests are welcome! Feel free to open an issue or suggest improvements.
+### **CUSTOM WORD FILTER**
+
+- Edit `src/template/word_filter.txt` to add or remove prohibited words.
+- The list is loaded at server startup.
 
 ---
 
-### DEVS LEARNING PLAN
+### **CURL USAGE**
 
-- API concepts
-- start API using (FastAPI framework)
-- Use FastAPI interface to call app.py to test params calls
-- Develop logic (Start simple like "if guardrails receive an prohibited pre-defined word, return to API user input censored")
+**Manual Moderation**
+
+```sh
+curl -X POST "http://localhost:8000/manualmoderate" -H "Content-Type: application/json" -d '{"text_input": "This is a badword"}'
+```
+
+**AI Moderation**
+
+```sh
+curl -X POST "http://localhost:8000/aimoderate" -H "Content-Type: application/json" -d '{"text_input": "My email is test@example.com"}'
+```
+
+### **AUTHORS**
+
+[Enzo Hashinokuti](https://github.com/EnzoHashinokutiXavier) | [Giovane Iwamoto](https://github.com/GiovaneIwamoto)
+
+We are always open to receiving constructive criticism and suggestions for improving our developed code. We believe that feedback is essential for learning and growth, and we are eager to learn from others to make our code the best it can be. Whether it's a minor tweak or a major overhaul, we are willing to consider all suggestions and implement changes that will benefit our code and its users.
