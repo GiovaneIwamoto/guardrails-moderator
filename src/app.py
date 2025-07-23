@@ -1,35 +1,33 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 import re
 import os
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 from dotenv import load_dotenv
 from openai import OpenAI
 
-# Load environment variables from .env file
+# Load environment variables
 load_dotenv()
 
-# Create OpenAI client using the API key from environment
+# Request body model
+class TextInput(BaseModel):
+    text_input: str
+
+
+# Create client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+# Initialize FastAPI
 app = FastAPI()
 
-
 # Load prohibited words from a file
-def load_prohibited_words(filename="prohibited_word.txt"):
+def load_prohibited_words(filename="template/word_filter.txt"):
     try:
         with open(filename, "r", encoding="utf-8") as file:
             return set(word.strip().lower() for word in file.readlines())
     except FileNotFoundError:
         return set()
 
-
 prohibited_words = load_prohibited_words()
-
-
-# Request body model
-class TextInput(BaseModel):
-    text_input: str
-
 
 # Manual moderation using regex and word list
 def treat_input(user_input: str):
@@ -56,7 +54,6 @@ def ai_treat_input(user_input: str):
             {"role": "user", "content": prompt}
         ]
     )
-
     return response.choices[0].message.content.strip()
 
 
