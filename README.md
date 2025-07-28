@@ -22,6 +22,7 @@ pip install -r requirements.txt
      
 ```bash
 OPENAI_API_KEY=your_openai_api_key_here
+DATABASE_URL=sqlite:///./moderator.db
 ```
 
 ```sh
