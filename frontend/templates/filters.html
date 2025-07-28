@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Filters</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Word Filters</h1>
+    <nav>
+        <a href="/">Dashboard</a> |
+        <a href="/filters">Word Filters</a> |
+        <a href="/logs">Logs</a> |
+        <a href="/settings">Settings</a>
+    </nav>
+    <h2>Add New Filter</h2>
+    <form method="post" action="/filters/add">
+        <input type="text" name="word" required>
+        <button type="submit">Add</button>
+    </form>
+    <h2>Current Filters</h2>
+    <table>
+        <tr>
+            <th>Word</th>
+            <th>Action</th>
+        </tr>
+        {% for filter in filters %}
+        <tr>
+            <td>{{ filter.word }}</td>
+            <td>
+                <form method="post" action="/filters/delete/{{ filter.id }}" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html> 

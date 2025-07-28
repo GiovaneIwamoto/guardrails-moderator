@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Moderation Logs</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Moderation Logs</h1>
+    <nav>
+        <a href="/">Dashboard</a> |
+        <a href="/filters">Word Filters</a> |
+        <a href="/logs">Logs</a> |
+        <a href="/settings">Settings</a>
+    </nav>
+    <table>
+        <tr>
+            <th>Timestamp</th>
+            <th>Method</th>
+            <th>Original</th>
+            <th>Moderated</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.timestamp }}</td>
+            <td>{{ log.method }}</td>
+            <td>{{ log.original }}</td>
+            <td>{{ log.moderated }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html> 
